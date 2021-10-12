@@ -38,18 +38,18 @@ class Obstacles():
 
         radi = 10 #The radius of the cirle that i think the obstacle should hit on
         traj = self.makeObstacleTrajectory()
-        crach_obstacle = []
+        crash_obstacle = []
 
         for i in range(traj.shape[2]): #Make sure the shape index is correct aka nr of obstacles
             for t in range(self.sim_time): 
                 dist = math.sqrt((ownship_traj[0,t,i]-traj[0,t,i]^2)+(ownship_traj[1,t,i]-traj[1,t,i]^2))
                 if dist < radi: 
                     obstacle_class = self.classifyCollision(traj[_,_,i], ownship_traj)
-                    crach_obstacle.append([traj[0,t,i], traj[1,t,i], obstacle_class])
+                    crash_obstacle = crash_obstacle.append([traj[0,t,i], traj[1,t,i], obstacle_class])
                     
-        return crach_obstacle
+        return crash_obstacle
 
-    def classifyCollision(obstacle_traj, ownship_traj): 
+    def classifyCollision(self, obstacle_traj, ownship_traj): 
         #Try to just make it for rule 15 Give-way
         return("Give-way")
 
