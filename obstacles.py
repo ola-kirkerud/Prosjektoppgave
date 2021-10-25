@@ -30,6 +30,7 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
+                    
         return traj
 
     def getObstacles(self, ownship_traj):
