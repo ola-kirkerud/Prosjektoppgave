@@ -42,7 +42,8 @@ class potentialField():
     #goal = location og the goal
 
 
-    s = 7
+    #s = 4 works okay, very big correction backwards though
+    s=4
     r = 1
 
     for i in range(len(self.x)):
@@ -89,11 +90,10 @@ class potentialField():
 
   def makeField(self, goal, obstacles): 
     X, Y = np.meshgrid(self.x, self.y)
-    s = 20
-    r = 3
-
+    s = 7
+    r = 7
     delx, dely = self.addGoal(X,Y,s,r,goal)
     for obstacle in obstacles:
-      delx, dely,obstacle, r = self.addObstacle(X, Y, delx, dely, goal, obstacle)
+     delx, dely, obstacle, r = self.addObstacle(X, Y, delx, dely, goal, obstacle)
     
     return delx, dely, X, Y

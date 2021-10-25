@@ -4,6 +4,7 @@ from obstacles import Obstacles
 from ownship import OwnShip
 import matplotlib.pyplot as plt
 from plotting import Plotting
+from matplotlib.collections import LineCollection
 
 
 #Simulator variables
@@ -25,10 +26,10 @@ X, Y = np.meshgrid(x,y)
 ownship_traj = np.linspace((0,0), (100,100), t_sim)
 ship = OwnShip(ownship_traj[0], ownship_traj)
 
-print(ownship_traj[0])
 
 ship_path_x = [0]
 ship_path_y = [0]
+
 
 
 #Obstacles
@@ -36,14 +37,17 @@ ship_path_y = [0]
 stationary_obstacles = [[]]
 
 #Define init state of dynamic variables [2*pos, 2*velocity, 2*heading]
-dynamic_obstacles = np.array([[0, 50, 1,0, 270]])
+dynamic_obstacles = np.array([[100, 0, -1,1, 270]])
 obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 
 field = potentialField(x_sim, y_sim)
+obstacles, traj = obs.getObstacles(ownship_traj)
+print(obstacles, traj)
+
+obstacles = [[48.8,49.6],[47,50],[45.47,50.1],[43.13,50.8],[40.66,51.1]]
 
 while t<t_sim:
 
-  obstacles, traj = obs.getObstacles(ownship_traj)
   #obstacles = [[50,100]]
   print("obs")
   print(obstacles)
@@ -67,8 +71,35 @@ while t<t_sim:
   print(ship_pos)
 
   t = t+1
-plt.plot(ship_path_x, ship_path_y, linestyle = 'dotted')
-plt.show()
-Plotting.lineplot(ship_path_x, ship_path_y)
 
+#fig = plt.plot()
+#plt.quiver(X,Y,delx,dely)
+#plt.plot(ship_path_x, ship_path_y, linestyle = 'dotted')
+#plt.show()
+#Plotting.lineplot(ship_path_x, ship_path_y)
+
+t = np.linspace(0,1,len(ship_path_x))
+points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)
+points2 = np.array([traj[:,:,0], traj[:,:,1]]).transpose().reshape(-1,1,2)
+print(points1)
+print(points2)
+
+segs1 = np.concatenate([points1[:-1],points1[1:]], axis=1)
+segs2 = np.concatenate([points2[:-1],points2[1:]], axis=1)
+
+# make the collection of segments
+lc1 = LineCollection(segs1, cmap=plt.get_cmap('jet'))
+lc2 = LineCollection(segs2, cmap=plt.get_cmap('jet'))
+
+lc1.set_array(t) # color the segments by our parameter
+lc2.set_array(t) 
+
+# plot the collection
+plt.gca().add_collection(lc1) # add the collection to the plot
+plt.gca().add_collection(lc2) # add the collection to the plot
+
+plt.xlim(0, 100) # line collections don't auto-scale the plot
+plt.ylim(0,100)
+
+plt.show()
 

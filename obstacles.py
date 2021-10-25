@@ -36,7 +36,7 @@ class Obstacles():
         #This function breaks or makes this whole project!!
         #Finding the obstacles that are on impact route
 
-        radi = 2 #The radius of the cirle that i think the obstacle should hit on
+        radi = 5 #The radius of the cirle that i think the obstacle should hit on
         traj = self.makeObstacleTrajectory()
         crash_obstacle = []
 
