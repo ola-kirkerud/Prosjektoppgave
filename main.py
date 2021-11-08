@@ -31,7 +31,6 @@ ship_path_x = [0]
 ship_path_y = [0]
 
 
-
 #Obstacles
 #Define pos of stationairy obstacles
 stationary_obstacles = [[]]
@@ -67,8 +66,8 @@ while t<t_sim:
 t = np.linspace(0,1,len(ship_path_x))
 points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)
 points2 = np.array([traj[:,:,0], traj[:,:,1]]).transpose().reshape(-1,1,2)
-print(points1)
-print(points2)
+print(points1.shape)
+print(points2.shape)
 
 segs1 = np.concatenate([points1[:-1],points1[1:]], axis=1)
 segs2 = np.concatenate([points2[:-1],points2[1:]], axis=1)
