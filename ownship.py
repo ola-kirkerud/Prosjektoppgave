@@ -9,11 +9,18 @@ class OwnShip():
         self.traj = traj
     
     def updatePos(self, delx, dely):
-        x = self.pos[0] + dely[math.floor(self.pos[0]),math.floor(self.pos[1])] / 100
-        y = self.pos[1] + delx[math.floor(self.pos[0]),math.floor(self.pos[1])] / 100
+        #phi = math.atan(delx[math.floor(self.pos[0]),math.floor(self.pos[1])]/dely[math.floor(self.pos[0]),math.floor(self.pos[1])] )
+        #print(phi)
+        #x = self.pos[0] + math.cos(phi)*2
+        #y = self.pos[1] + math.sin(phi)*2
 
-        print(delx[math.floor(self.pos[0]),math.floor(self.pos[1])], dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
-
+        x = self.pos[0] + delx[math.floor(self.pos[0]),math.floor(self.pos[1])] / 300
+        #print("delx")
+        #print(math.floor(self.pos[0]),math.floor(self.pos[1]))
+        #print(dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
+        y = self.pos[1] + dely[math.floor(self.pos[0]),math.floor(self.pos[1])] / 300
+        #print("dely")
+        #print(delx[math.floor(self.pos[0]),math.floor(self.pos[1])])
         self.pos = [x,y]
 
     def getPos(self):
@@ -27,4 +34,4 @@ class OwnShip():
         if t+30 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[t+30]
+            return self.traj[99]

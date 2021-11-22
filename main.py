@@ -42,13 +42,19 @@ obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
-obstacles = [[48.8,49.6],[47,50],[45.47,50.1],[43.13,50.8],[40.66,51.1]]
+targets = obs.create_targets(obstacles,ownship_traj[0])
+
+goal = ship.getGoal(t)
+
+delx, dely, X, Y = field.makeField(goal, targets)
+
+#print(targets)
 
 while t<t_sim:
 
-  goal = ship.getGoal(t)
+  #goal = ship.getGoal(t)
 
-  delx, dely, X, Y = field.makeField(goal, obstacles)
+  #delx, dely, X, Y = field.makeField(goal, targets)
 
   ship.updatePos(delx, dely)
 
@@ -56,10 +62,19 @@ while t<t_sim:
   ship_path_x.append(ship_pos[0])
   ship_path_y.append(ship_pos[1])
 
+  if (ship_pos[0] > 55) and (ship_pos[1] > 55): 
+    targets = []
+
 
   print(ship_pos)
 
   t = t+1
+  print(t)
+
+fig, ax = plt.subplots(figsize = (10,10))
+ax.quiver(X, Y, delx, dely)
+ax.streamplot(X,Y,delx,dely, start_points=[[0,0]],linewidth=4, cmap='autu')
+
 
 
 

@@ -39,7 +39,8 @@ class Obstacles():
 
         radi = 5 #The radius of the cirle that i think the obstacle should hit on
         traj = self.makeObstacleTrajectory()
-        crash_obstacle = []
+        #crash_obstacle = []
+        crash_obstacle = np.array([[0,0]])
 
 
         for i in range(traj.shape[0]): #Make sure the shape index is correct aka nr of obstacles
@@ -47,12 +48,29 @@ class Obstacles():
                 dist = math.sqrt((ownship_traj[t,0]-traj[i,t,0])**2+(ownship_traj[t,1]-traj[i,t,1])**2)
                 if dist < radi: 
                     obstacle_class = self.classifyCollision(traj[:,:,i], ownship_traj)
-                    crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
+                    #crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
+                    crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
+
+        obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
                     
-        return crash_obstacle, traj
+        return obstacle, traj
+
+    def create_targets(self, obstacle, own_ship_pos): 
+        r = math.sqrt((own_ship_pos[0]-obstacle[1])**2 + (own_ship_pos[1]-obstacle[2])**2)
+
+        phi = 2*math.pi/2 #225 degrees should define phi from r
+        end = [obstacle[1], obstacle[2]-20]
+
+
+        x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 20)).reshape((20,1))
+        y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 20)).reshape((20,1))
+
+
+        return np.hstack((x,y))
 
     def classifyCollision(self, obstacle_traj, ownship_traj): 
         #Try to just make it for rule 15 Give-way
+
         return("Give-way")
 
 
