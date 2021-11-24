@@ -30,7 +30,8 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-                    
+        traj = np.linspace((100, 0,0), (0, 100,1000),1000).reshape((1,1000,3))
+
         return traj
 
     def getObstacles(self, ownship_traj):
@@ -42,12 +43,11 @@ class Obstacles():
         #crash_obstacle = []
         crash_obstacle = np.array([[0,0]])
 
-
         for i in range(traj.shape[0]): #Make sure the shape index is correct aka nr of obstacles
             for t in range(self.sim_time): 
                 dist = math.sqrt((ownship_traj[t,0]-traj[i,t,0])**2+(ownship_traj[t,1]-traj[i,t,1])**2)
                 if dist < radi: 
-                    obstacle_class = self.classifyCollision(traj[:,:,i], ownship_traj)
+                    obstacle_class = 'Giwe-way'#self.classifyCollision(traj[:,:,i], ownship_traj)
                     #crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
 
@@ -62,8 +62,8 @@ class Obstacles():
         end = [obstacle[1], obstacle[2]-20]
 
 
-        x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 20)).reshape((20,1))
-        y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 20)).reshape((20,1))
+        x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 10)).reshape((10,1))
+        y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 10)).reshape((10,1))
 
 
         return np.hstack((x,y))

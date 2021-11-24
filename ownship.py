@@ -9,18 +9,18 @@ class OwnShip():
         self.traj = traj
     
     def updatePos(self, delx, dely):
-        #phi = math.atan(delx[math.floor(self.pos[0]),math.floor(self.pos[1])]/dely[math.floor(self.pos[0]),math.floor(self.pos[1])] )
+        #phi = math.atan(delx[math.floor(self.pos[0]),math.floor(self.pos[1])]/dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
         #print(phi)
-        #x = self.pos[0] + math.cos(phi)*2
-        #y = self.pos[1] + math.sin(phi)*2
+        #x = self.pos[0] + math.cos(phi)*0.1
+        #y = self.pos[1] + math.sin(phi)*0.1
 
-        x = self.pos[0] + delx[math.floor(self.pos[0]),math.floor(self.pos[1])] / 300
-        #print("delx")
-        #print(math.floor(self.pos[0]),math.floor(self.pos[1]))
-        #print(dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
-        y = self.pos[1] + dely[math.floor(self.pos[0]),math.floor(self.pos[1])] / 300
-        #print("dely")
-        #print(delx[math.floor(self.pos[0]),math.floor(self.pos[1])])
+        delx_hat = delx[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
+        dely_hat = dely[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
+
+
+        x = self.pos[0] + delx_hat*0.15
+        y = self.pos[1] + dely_hat*0.15
+
         self.pos = [x,y]
 
     def getPos(self):
@@ -34,4 +34,4 @@ class OwnShip():
         if t+30 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[99]
+            return self.traj[t+30]
