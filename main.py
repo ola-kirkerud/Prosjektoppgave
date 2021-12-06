@@ -5,10 +5,11 @@ from ownship import OwnShip
 import matplotlib.pyplot as plt
 from plotting import Plotting
 from matplotlib.collections import LineCollection
+import math
 
 
 #Simulator variables
-t_sim = 100
+t_sim = 1000
 t = 0
 
 #Init variables
@@ -26,7 +27,6 @@ X, Y = np.meshgrid(x,y)
 ownship_traj = np.linspace((0,0), (100,100), t_sim)
 ship = OwnShip(ownship_traj[0], ownship_traj)
 
-
 ship_path_x = [0]
 ship_path_y = [0]
 
@@ -42,13 +42,15 @@ obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
-obstacles = [[48.8,49.6],[47,50],[45.47,50.1],[43.13,50.8],[40.66,51.1]]
+targets = obs.create_targets(obstacles,ownship_traj[0])
+
+
 
 while t<t_sim:
 
   goal = ship.getGoal(t)
 
-  delx, dely, X, Y = field.makeField(goal, obstacles)
+  delx, dely, X, Y = field.makeField(goal, targets)
 
   ship.updatePos(delx, dely)
 
@@ -56,18 +58,20 @@ while t<t_sim:
   ship_path_x.append(ship_pos[0])
   ship_path_y.append(ship_pos[1])
 
+  if (ship_pos[0] > 55) and (ship_pos[1] > 55): 
+    targets = []
 
-  print(ship_pos)
+
 
   t = t+1
+
+
 
 
 
 t = np.linspace(0,1,len(ship_path_x))
 points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)
 points2 = np.array([traj[:,:,0], traj[:,:,1]]).transpose().reshape(-1,1,2)
-print(points1.shape)
-print(points2.shape)
 
 segs1 = np.concatenate([points1[:-1],points1[1:]], axis=1)
 segs2 = np.concatenate([points2[:-1],points2[1:]], axis=1)
