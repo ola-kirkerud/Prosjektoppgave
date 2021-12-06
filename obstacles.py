@@ -58,12 +58,31 @@ class Obstacles():
     def create_targets(self, obstacle, own_ship_pos): 
         r = math.sqrt((own_ship_pos[0]-obstacle[1])**2 + (own_ship_pos[1]-obstacle[2])**2)
 
-        phi = 2*math.pi/2 #225 degrees should define phi from r
-        end = [obstacle[1], obstacle[2]-20]
+        phi = np.arccos(r/math.sqrt(r**2 + 20**2))
+        print(phi)
+        h = 20
+
+        x_r = math.sqrt((own_ship_pos[0]-obstacle[1])**2)
+        y_r = math.sqrt((own_ship_pos[1]-obstacle[2])**2)
+
+        x_e = x_r + h*math.cos(phi)
+        y_e = y_r + h*math.cos(phi)
+
+        x_s = x_r - h*math.cos(phi)
+        y_s = y_r - h*math.cos(phi)
+
+        x = np.linspace(x_e, x_s, 10).reshape((10,1))
+        y = np.linspace(y_e, y_s, 10).reshape((10,1))
 
 
-        x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 10)).reshape((10,1))
-        y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 10)).reshape((10,1))
+
+
+        #phi = 2*math.pi/2 #225 degrees should define phi from r
+        #end = [obstacle[1], obstacle[2]-20]
+
+
+        #x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 10)).reshape((10,1))
+        #y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 10)).reshape((10,1))
 
 
         return np.hstack((x,y))

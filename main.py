@@ -1,4 +1,5 @@
-import numpy as np 
+import numpy as np
+from numpy.core.shape_base import hstack 
 from potentialfield import potentialField
 from obstacles import Obstacles
 from ownship import OwnShip
@@ -43,8 +44,9 @@ field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
 targets = obs.create_targets(obstacles,ownship_traj[0])
+print(targets)
 
-
+#targets = []
 
 while t<t_sim:
 
@@ -57,6 +59,19 @@ while t<t_sim:
   ship_pos = ship.getPos()
   ship_path_x.append(ship_pos[0])
   ship_path_y.append(ship_pos[1])
+  #for i in range(t_sim):
+  #  ship.updatePos(delx, dely)
+  #  ship_pos = ship.getPos()
+  #  ship_path_x.append(ship_pos[0])
+  #  ship_path_y.append(ship_pos[1])
+  #  print(ship_pos)
+    
+  #  if (ship_pos[0]>70) and (ship_pos[0]>70):
+  #    print("yes")
+  #    break
+
+
+  #print(np.hstack((ship_path_x,ship_path_y)))
 
   if (ship_pos[0] > 55) and (ship_pos[1] > 55): 
     targets = []
