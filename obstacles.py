@@ -1,5 +1,7 @@
 import numpy as np
 import math 
+import matplotlib.pyplot as plt
+
 
 class Obstacles():
 
@@ -8,6 +10,7 @@ class Obstacles():
         self.stationary_pos = stationary_pos
         self.dynamic_state = dynamic_state #en nd array med [2*position, 2*velocity, heading]
         self.sim_time = simulation_time
+        self.traj = [[]]
 
     
 
@@ -53,19 +56,47 @@ class Obstacles():
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
 
         obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
-
+        self.traj = traj
                     
         return obstacle, traj
 
-    def create_targets(self, obstacle, own_ship_pos): 
-        r = math.sqrt((own_ship_pos[0]-obstacle[1])**2 + (own_ship_pos[1]-obstacle[2])**2)
+    def create_targets(self, obstacle, own_ship_pos, t): 
+        d_ts_cpa = math.sqrt((obstacle[1]-self.traj[0,t,0])**2 + (obstacle[2]-self.traj[0,t,1])**2)
+        d_ts_os = math.sqrt((own_ship_pos[0]-self.traj[0,t,0])**2 + (own_ship_pos[1]-self.traj[0,t,1])**2)
+        d_os_cpa = math.sqrt((obstacle[1]-own_ship_pos[0])**2 + (obstacle[2]-own_ship_pos[1])**2)
 
-        phi = 2*math.pi/2 #225 degrees should define phi from r
-        end = [obstacle[1], obstacle[2]-20]
+        #Attack angle between OS and TS
+        #A bug that fucks this up...
+        attack = np.arccos((d_ts_cpa**2+d_os_cpa**2-d_ts_os**2)/2*d_ts_cpa*d_os_cpa)
 
+        attack = 1.5707963275688286
+        #Angle theta is the heading of TS
+        if t>self.sim_time-11:
+            theta = np.arctan2(self.traj[0,self.sim_time-10,0]-self.traj[0,-1,0],self.traj[0,self.sim_time-10,1]-self.traj[0,-1,1])
+        else: 
+            theta = np.arctan2(self.traj[0,t,0]-self.traj[0,t+10,0],self.traj[0,t,1]-self.traj[0,t+10,1])
+        if theta<0:
+            theta = theta+2*math.pi
+        
+        k = 5
 
-        x = np.flip(np.linspace(end[0]+math.cos(phi)*40,end[0], 10)).reshape((10,1))
-        y = (np.linspace(end[1],end[1]+math.sin(phi)*40, 10)).reshape((10,1))
+        #N is the start of the line 
+        Nx_start = self.traj[0,t,0] + k*math.cos(theta+math.pi/2)
+        Ny_start = self.traj[0,t,1] + k*math.sin(theta+math.pi/2)
+
+        #Phi target is the angle of the line
+        if attack > 3*math.pi/4:
+            phi_target = theta
+        elif attack<=3*math.pi/4:
+            phi_target = theta - (12*attack/23 + 89*math.pi/207)
+        print(attack)
+
+        Nx_end = Nx_start + 50*math.sin(phi_target-math.pi/2)
+        Ny_end = Ny_start + 50*math.cos(phi_target-math.pi/2)
+      
+
+        x = np.linspace(Nx_start, Nx_end, 50).reshape((50,1))
+        y = np.linspace(Ny_start, Ny_end, 50).reshape((50,1))
 
 
         return np.hstack((x,y))

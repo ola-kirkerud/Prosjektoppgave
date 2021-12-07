@@ -1,5 +1,5 @@
 import numpy as np 
-from potentialfield import potentialField
+from potentialfield3 import potentialField
 from obstacles import Obstacles
 from ownship import OwnShip
 import matplotlib.pyplot as plt
@@ -42,16 +42,22 @@ obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
-targets = obs.create_targets(obstacles,ownship_traj[0])
 
-#targets = []
+#targets = obs.create_targets(obstacles,ownship_traj[0])
 
 while t<t_sim:
   print(t)
+  #get attack angle 
+  targets = obs.create_targets(obstacles,ship.getPos(), t)
+
+
 
   goal = ship.getGoal(t)
 
-  delx, dely, X, Y = field.makeField(goal, targets)
+  print("goal")
+  print(goal)
+
+  delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
   ship.updatePos(delx, dely)
 
@@ -59,9 +65,9 @@ while t<t_sim:
   ship_path_x.append(ship_pos[0])
   ship_path_y.append(ship_pos[1])
 
-  if (ship_pos[0] > 55) and (ship_pos[1] > 55): 
-    targets = []
-
+  print(ship_pos)
+  #if ship_pos[0] > 90 or ship_pos[1]>90: 
+  #  break
 
 
   t = t+1
