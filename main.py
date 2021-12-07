@@ -15,11 +15,11 @@ t = 0
 #Init variables
 
 #Size of the grid
-x_sim = 200
-y_sim = 200
+x_sim = 400
+y_sim = 400
 
-x = np.arange(-0,200,1)
-y = np.arange(-0,200,1)
+x = np.arange(-0,400,1)
+y = np.arange(-0,400,1)
 
 X, Y = np.meshgrid(x,y)
 
@@ -54,8 +54,6 @@ while t<t_sim:
 
   goal = ship.getGoal(t)
 
-  print("goal")
-  print(goal)
 
   delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
@@ -65,7 +63,6 @@ while t<t_sim:
   ship_path_x.append(ship_pos[0])
   ship_path_y.append(ship_pos[1])
 
-  print(ship_pos)
   #if ship_pos[0] > 90 or ship_pos[1]>90: 
   #  break
 
@@ -73,8 +70,8 @@ while t<t_sim:
   t = t+1
 
 
-
-
+#plt.plot(targets[:,0], targets[:,1])
+#plt.show()
 
 t = np.linspace(0,1,len(ship_path_x))
 points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)

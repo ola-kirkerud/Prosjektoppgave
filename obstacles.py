@@ -78,7 +78,7 @@ class Obstacles():
         if theta<0:
             theta = theta+2*math.pi
         
-        k = 5
+        k = 20
 
         #N is the start of the line 
         Nx_start = self.traj[0,t,0] + k*math.cos(theta+math.pi/2)
@@ -89,14 +89,13 @@ class Obstacles():
             phi_target = theta
         elif attack<=3*math.pi/4:
             phi_target = theta - (12*attack/23 + 89*math.pi/207)
-        print(attack)
 
-        Nx_end = Nx_start + 50*math.sin(phi_target-math.pi/2)
-        Ny_end = Ny_start + 50*math.cos(phi_target-math.pi/2)
+        Nx_end = Nx_start + 60*math.sin(phi_target-math.pi/2)
+        Ny_end = Ny_start + 60*math.cos(phi_target-math.pi/2)
       
 
-        x = np.linspace(Nx_start, Nx_end, 50).reshape((50,1))
-        y = np.linspace(Ny_start, Ny_end, 50).reshape((50,1))
+        x = np.linspace(Nx_start, Nx_end, 60).reshape((60,1))
+        y = np.linspace(Ny_start, Ny_end, 60).reshape((60,1))
 
 
         return np.hstack((x,y))
