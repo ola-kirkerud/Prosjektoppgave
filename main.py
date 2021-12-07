@@ -48,7 +48,12 @@ obstacles, traj = obs.getObstacles(ownship_traj)
 while t<t_sim:
   print(t)
   #get attack angle 
-  targets = obs.create_targets(obstacles,ship.getPos(), t)
+  ship_pos = ship.getPos()
+
+  if ship_pos[0] > 50 or ship_pos[1]>50:
+    targets = []
+  else: 
+    targets = obs.create_targets(obstacles,ship.getPos(), t)
 
 
 
@@ -68,6 +73,11 @@ while t<t_sim:
 
 
   t = t+1
+
+  #plt.plot(ship_path_x, ship_path_y)
+  #plt.plot(targets[:,0], targets[:,1])
+  #plt.show()
+
 
 
 #plt.plot(targets[:,0], targets[:,1])

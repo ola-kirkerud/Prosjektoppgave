@@ -64,7 +64,7 @@ class potentialField():
 
 
     #s = 4 works okay, very big correction backwards though
-    s=2
+    s=4
     r = 5
 
 
@@ -128,7 +128,7 @@ class potentialField():
 
   def makeField(self, goal, obstacles): 
     X, Y = np.meshgrid(self.x, self.y)
-    s = 3
+    s = 5
     r = 1
     delx, dely = self.addGoal(X,Y,s,r,goal)
 
