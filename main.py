@@ -1,5 +1,5 @@
 import numpy as np 
-from potentialfield import potentialField
+from test1 import potentialField
 from obstacles import Obstacles
 from ownship import OwnShip
 import matplotlib.pyplot as plt
@@ -51,7 +51,7 @@ while t<t_sim:
 
   goal = ship.getGoal(t)
 
-  delx, dely, X, Y = field.makeField(goal, targets)
+  delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
   ship.updatePos(delx, dely)
 
