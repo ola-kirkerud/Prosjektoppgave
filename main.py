@@ -44,9 +44,10 @@ obstacles, traj = obs.getObstacles(ownship_traj)
 
 targets = obs.create_targets(obstacles,ownship_traj[0])
 
-
+#targets = []
 
 while t<t_sim:
+  print(t)
 
   goal = ship.getGoal(t)
 

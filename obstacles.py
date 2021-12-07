@@ -10,6 +10,7 @@ class Obstacles():
         self.sim_time = simulation_time
 
     
+
     def getStationaryObstacles(self): 
         return self.stationary_pos
     
@@ -52,6 +53,7 @@ class Obstacles():
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
 
         obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
+
                     
         return obstacle, traj
 
