@@ -17,9 +17,12 @@ class OwnShip():
         delx_hat = delx[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
         dely_hat = dely[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
 
+        phi = math.atan(delx_hat/dely_hat)
+        #x = self.pos[0] + 0.15*math.cos(phi)
+        #y = self.pos[1] + 0.15*math.sin(phi)
 
-        x = self.pos[0] + delx_hat*0.15
-        y = self.pos[1] + dely_hat*0.15
+        x = self.pos[0] + delx_hat*0.070
+        y = self.pos[1] + dely_hat*0.070
 
         self.pos = [x,y]
 

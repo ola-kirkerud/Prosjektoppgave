@@ -31,7 +31,7 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((100, 0,0), (0, 100,1000),1000).reshape((1,1000,3))
+        traj = np.linspace((100, 0,0), (0, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
         return traj
 

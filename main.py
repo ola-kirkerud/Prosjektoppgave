@@ -9,7 +9,7 @@ import math
 
 
 #Simulator variables
-t_sim = 1000
+t_sim = 2000
 t = 0
 
 #Init variables
@@ -63,7 +63,7 @@ while t<t_sim:
     targets = []
 
 
-
+  print(ship_pos)
   t = t+1
 
 
