@@ -24,11 +24,13 @@ y = np.arange(-0,400,1)
 X, Y = np.meshgrid(x,y)
 
 #Ownship
-ownship_traj = np.linspace((0,0), (100,100), t_sim)
-ship = OwnShip(ownship_traj[0], ownship_traj)
+ownship_traj = np.linspace((0,80), (100,20), t_sim)
+print(ownship_traj.shape)
+ownship_heading = np.arctan2(ownship_traj[10,0]- ownship_traj[0,0], ownship_traj[10,1]-ownship_traj[0,1])
+ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
 ship_path_x = [0]
-ship_path_y = [0]
+ship_path_y = [80]
 
 
 #Obstacles
@@ -43,6 +45,7 @@ field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
 
+
 #targets = obs.create_targets(obstacles,ownship_traj[0])
 
 while t<t_sim:
@@ -50,11 +53,8 @@ while t<t_sim:
   #get attack angle 
   ship_pos = ship.getPos()
 
-  if ship_pos[0] > 50 or ship_pos[1]>50:
-    targets = []
-  else: 
-    targets = obs.create_targets(obstacles,ship.getPos(), t)
 
+  targets = obs.create_targets(obstacles,ship.getPos(), t, ship.getHeading())
 
 
   goal = ship.getGoal(t)
@@ -63,6 +63,8 @@ while t<t_sim:
   delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
   ship.updatePos(delx, dely)
+
+  ship.updateHeading(ship_pos)
 
   ship_pos = ship.getPos()
   ship_path_x.append(ship_pos[0])

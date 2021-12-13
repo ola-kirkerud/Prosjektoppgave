@@ -71,11 +71,11 @@ class potentialField():
     for x in range(len(self.x)):
       for y in range(len(self.y)):
         
-        #d_goal = np.sqrt((goal[0]-i)**2 + ((goal[1]-j))**2)
+        d_goal = np.sqrt((goal[0]-x)**2 + ((goal[1]-y))**2)
 
         d_obstacle = np.sqrt((obstacle[0]-x)**2 + (obstacle[1]-y)**2)
         #print(f"{i} and {j}")
-        #theta_goal= np.arctan2(goal[1] - X[i][j], goal[0]  - Y[i][j])
+        theta_goal= np.arctan2(goal[1] - x, goal[0]  - y)
         theta_obstacle = np.arctan2(obstacle[1] - y, obstacle[0]  - x)
 
 
@@ -92,27 +92,27 @@ class potentialField():
           #print(X[i][j], Y[i][j])
           #print(X[i,j], Y[i,j])
 
-          delx[x][y] += -150 *(s+r-d_obstacle)* np.cos(theta_obstacle)
-          dely[x][y] += -150 * (s+r-d_obstacle)*  np.sin(theta_obstacle) 
+          delx[x][y] += -160 *(s+r-d_obstacle)* np.cos(theta_obstacle)
+          dely[x][y] += -160 * (s+r-d_obstacle)*  np.sin(theta_obstacle) 
            
 
-        #if d_goal <r+s:
-        #  if delx[i][j] != 0:
-        #    delx[i][j]  += (200 * (d_goal-r) *np.cos(theta_goal))
-        #    dely[i][j]  += (200 * (d_goal-r) *np.sin(theta_goal))
-        #  else:
+        if d_goal <r+s:
+          if delx[x][y] != 0:
+            delx[x][y]  += (200 * (d_goal-r) *np.cos(theta_goal))
+            dely[x][y]  += (200 * (d_goal-r) *np.sin(theta_goal))
+          else:
             
-        #    delx[i][j]  = (50 * (d_goal-r) *np.cos(theta_goal))
-        #    dely[i][j]  = (50 * (d_goal-r) *np.sin(theta_goal))
+            delx[x][y]  = (50 * (d_goal-r) *np.cos(theta_goal))
+            dely[x][y]  = (50 * (d_goal-r) *np.sin(theta_goal))
             
-        #if d_goal>r+s:
-        #  if delx[i][j] != 0:
-        #    delx[i][j] += 50* s *np.cos(theta_goal)
-        #    dely[i][j] += 50* s *np.sin(theta_goal)
-        #  else:
+        if d_goal>r+s:
+          if delx[x][y] != 0:
+            delx[x][y] += 50* s *np.cos(theta_goal)
+            dely[x][y] += 50* s *np.sin(theta_goal)
+          else:
             
-        #    delx[i][j] = 50* s *np.cos(theta_goal)
-        #    dely[i][j] = 50* s *np.sin(theta_goal) 
+            delx[x][y] = 50* s *np.cos(theta_goal)
+            dely[x][y] = 50* s *np.sin(theta_goal) 
 
         #if d_goal<r:
         #    delx[i][j] = 0

@@ -4,9 +4,11 @@ import numpy as np
 class OwnShip():
 
 
-    def __init__(self, pos, traj):
+    def __init__(self, pos, traj, heading):
         self.pos = pos
         self.traj = traj
+        self.heading = heading
+        self.phi = 0
     
     def updatePos(self, delx, dely):
         #phi = math.atan(delx[math.floor(self.pos[0]),math.floor(self.pos[1])]/dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
@@ -17,7 +19,17 @@ class OwnShip():
         delx_hat = delx[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
         dely_hat = dely[int(round(self.pos[0])),int(round(self.pos[1]))]/math.sqrt(delx[int(round(self.pos[0])),int(round(self.pos[1]))]**2+dely[int(round(self.pos[0])),int(round(self.pos[1]))]**2)
 
-        phi = math.atan2(dely_hat,delx_hat)
+        if (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0) and (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0):
+            phi = self.phi
+            print("GOOO")
+            print(phi)
+        else:
+            phi = math.atan2(dely_hat, delx_hat)
+            print("YESS")
+            print(phi)
+
+
+        self.phi = phi
         x = self.pos[0] + 0.15*math.cos(phi)
         y = self.pos[1] + 0.15*math.sin(phi)
 
@@ -36,7 +48,13 @@ class OwnShip():
         #check distance from ownship to traj
         #should also have a different one if the heading diff is to big 
         #must only look at the points that are ahead, not behind
-        if t+30 >= self.traj.shape[0]:
+        if t+60 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[t+30]
+            return self.traj[t+60]
+    
+    def updateHeading(self, old_pos):
+        self.heading = np.arctan2(self.pos[0]-old_pos[0], self.pos[1]-old_pos[1])
+
+    def getHeading(self):
+        return self.heading
