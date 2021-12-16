@@ -129,7 +129,7 @@ class potentialField():
   def makeField(self, goal, obstacles): 
     X, Y = np.meshgrid(self.x, self.y)
     s = 5
-    r = 1
+    r = 5
     delx, dely = self.addGoal(X,Y,s,r,goal)
 
     for obstacle in obstacles:

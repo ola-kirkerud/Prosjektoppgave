@@ -21,6 +21,7 @@ class OwnShip():
 
         if (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0) and (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0):
             phi = self.phi
+            print("fuck")
         else:
             phi = math.atan2(dely_hat, delx_hat)
 
@@ -48,7 +49,7 @@ class OwnShip():
         if t+60 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[t+60,:]
+            return self.traj[-1,:]#[t+60,:]
     
     def updateHeading(self, old_pos):
         self.heading = np.arctan2(self.pos[1]-old_pos[1], self.pos[0]-old_pos[0])

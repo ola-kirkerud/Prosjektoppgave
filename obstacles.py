@@ -12,6 +12,7 @@ class Obstacles():
         self.sim_time = simulation_time
         self.traj = [[]]
 
+
     
 
     def getStationaryObstacles(self): 
@@ -36,7 +37,6 @@ class Obstacles():
                     traj[i,t,2] = t
         traj = np.linspace((80, 0,0), (20, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-        print(traj)
 
         return traj
 
@@ -139,6 +139,68 @@ class Obstacles():
         #plt.show()
         #print(np.hstack((x,y)))
         return np.hstack((x,y))
+
+    def create_dynamic_linear_line(self, t):
+        r = 10
+        ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
+
+        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
+        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
+
+        #print(e_x, e_y)
+        theta = 1*math.pi/12
+
+        k= 20
+
+        e_endx = e_x + 20*math.cos(ts_heading - theta)
+        e_endy = e_y + 20*math.sin(ts_heading - theta)
+
+        e_startx = e_x - 20*math.cos(ts_heading - theta)
+        e_starty = e_y - 20*math.sin(ts_heading - theta)
+
+        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
+        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
+        #plt.plot(x,y)
+        #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
+        #plt.show()
+        #print(np.hstack((x,y)))
+        return np.hstack((x,y))
+
+
+    def create_dynamic_multiple_linear_line(self, t):
+        r = 10
+        ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
+
+        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
+        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
+
+        #print(e_x, e_y)
+        theta = 1*math.pi/12
+        r = 20
+        k= 20
+
+        e_endx = e_x + k*math.cos(ts_heading - theta)
+        e_endy = e_y + k*math.sin(ts_heading - theta)
+
+        e_startx = e_x - k*math.cos(ts_heading - theta)
+        e_starty = e_y - k*math.sin(ts_heading - theta)
+
+        e_parx = e_startx - r*math.cos(ts_heading - math.pi)
+        e_pary = e_starty - r*math.sin(ts_heading - math.pi)
+
+        x_par = np.linspace(e_parx, e_startx, 20)
+        y_par = np.linspace(e_pary, e_starty, 20)
+
+        x = np.linspace(e_startx, e_endx, 40)
+        y = np.linspace(e_starty, e_endy, 40)
+
+        x_comb = np.concatenate((x,x_par)).reshape((60,1))
+        y_comb = np.concatenate((y,y_par)).reshape((60,1))
+        #plt.plot(x_comb,y_comb)
+        #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
+        #plt.show()
+        #print(np.hstack((x,y)))
+        return np.hstack((x_comb,y_comb))
 
 
     def classifyCollision(self, obstacle_traj, ownship_traj): 
