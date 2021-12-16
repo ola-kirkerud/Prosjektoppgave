@@ -12,8 +12,8 @@ class potentialField():
 
   def make(self, X, Y, delx, dely, obstacle):
 
-    s = 2
-    r = 5
+    s = 7
+    r = 2
 
     delx = np.zeros_like(X)
     dely = np.zeros_like(Y)
@@ -131,7 +131,6 @@ class potentialField():
     s = 3
     r = 1
     delx, dely = self.addGoal(X,Y,s,r,goal,OSpos)
-
     for obstacle in obstacles:
       delx, dely, obstacle, r = self.addObstacle(X, Y, delx, dely, goal, obstacle, OSpos)
     return delx, dely, X, Y

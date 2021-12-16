@@ -111,6 +111,36 @@ class Obstacles():
         #print(np.hstack((x,y)))
         return np.hstack((x,y))
 
+    def create_static_linear_target(self, obstacle, os_pos, os_heading):
+        r = math.sqrt((obstacle[1]-os_pos[0])**2 + (obstacle[2]-os_pos[1])**2)
+
+        if r > 40: 
+            d = 40
+        else:
+            d = r/2
+        
+        theta = math.pi/6
+
+        e_x = os_pos[0] + d*math.cos(os_heading)
+        e_y = os_pos[1] + d*math.sin(os_heading)
+
+        k = 10
+
+        e_endx = e_x + k*math.cos(-theta + os_heading - math.pi)
+        e_endy = e_y + k*math.sin(-theta + os_heading - math.pi)
+
+        e_startx = e_x - k*math.cos(-theta + os_heading - math.pi)
+        e_starty = e_y - k*math.sin(-theta + os_heading - math.pi)
+
+        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
+        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
+        #plt.plot(x,y)
+        #plt.plot(self.traj[0,t,0],self.traj[0,t,1])
+        #plt.show()
+        #print(np.hstack((x,y)))
+        return np.hstack((x,y))
+
+
     def classifyCollision(self, obstacle_traj, ownship_traj): 
         #Try to just make it for rule 15 Give-way
 
