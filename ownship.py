@@ -28,10 +28,15 @@ class OwnShip():
             #print("YESS")
             #print(phi)
 
+        if self.phi - phi > math.pi/100:
+            phi = self.phi - math.pi/100
+        elif self.phi - phi < -math.pi/100:
+            phi = self.phi + math.pi/100
+
 
         self.phi = phi
-        x = self.pos[0] + 0.06*math.cos(phi)
-        y = self.pos[1] + 0.06*math.sin(phi)
+        x = self.pos[0] + 0.055*math.cos(phi)
+        y = self.pos[1] + 0.055*math.sin(phi)
 
         #print(x,y)
 
@@ -48,10 +53,10 @@ class OwnShip():
         #check distance from ownship to traj
         #should also have a different one if the heading diff is to big 
         #must only look at the points that are ahead, not behind
-        if t+60 >= self.traj.shape[0]:
+        if t+200 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[-1,:]#self.traj[t+60]
+            return self.traj[t+200,:]#self.traj[t+60]
     
     def updateHeading(self, old_pos):
         self.heading = np.arctan2(self.pos[1]-old_pos[1], self.pos[0]-old_pos[0])

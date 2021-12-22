@@ -7,7 +7,6 @@ from plotting import Plotting
 from matplotlib.collections import LineCollection
 import math
 
-
 #Simulator variables
 t_sim = 2000
 t = 0
@@ -24,7 +23,7 @@ y = np.arange(-0,200,1)
 X, Y = np.meshgrid(x,y)
 
 #Ownship
-ownship_traj = np.linspace((0,50), (100,50), t_sim)
+ownship_traj = np.linspace((0,50), (100,50), t_sim) #90 degrees
 ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
 ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
@@ -43,9 +42,9 @@ obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 
 field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
-
+print(obstacles)
 #targets = obs.create_targets(obstacles,ownship_traj[0])
-targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
+#targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
 
 #targets = []
 
@@ -53,6 +52,9 @@ while t<t_sim:
   print(t)
 
   goal = ship.getGoal(t)
+
+  #targets = obs.create_dynamic_linear_line(t)
+  targets = obs.create_dynamic_multiple_linear_line(t)
 
   delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
@@ -70,7 +72,7 @@ while t<t_sim:
   t = t+1
 
 
-plt.plot(targets[:,0], targets[:,1])
+#plt.plot(targets[:,0], targets[:,1])
 
 
 t = np.linspace(0,1,len(ship_path_x))

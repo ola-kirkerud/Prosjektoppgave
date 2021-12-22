@@ -56,8 +56,11 @@ class Obstacles():
                     obstacle_class = 'Giwe-way'#self.classifyCollision(traj[:,:,i], ownship_traj)
                     #crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
+        if crash_obstacle.shape[0] == 1:
+            obstacle = []
+        else:
+            obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
 
-        obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
         self.traj = traj
         
    
@@ -132,38 +135,33 @@ class Obstacles():
         e_startx = e_x - k*math.cos(-theta + os_heading - math.pi)
         e_starty = e_y - k*math.sin(-theta + os_heading - math.pi)
 
-        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
-        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
-        #plt.plot(x,y)
-        #plt.plot(self.traj[0,t,0],self.traj[0,t,1])
-        #plt.show()
-        #print(np.hstack((x,y)))
+        x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
+        y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
+
         return np.hstack((x,y))
 
     def create_dynamic_linear_line(self, t):
         r = 10
+
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
-        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
-        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
+        e_x = self.traj[0,t,0] + r*math.cos(ts_heading + math.pi/2)
+        e_y = self.traj[0,t,1] + r*math.sin(ts_heading + math.pi/2)
 
         #print(e_x, e_y)
-        theta = 1*math.pi/12
+        theta = 22*math.pi/25
 
-        k= 5
+        k= 50
 
-        e_endx = e_x + k*math.cos(ts_heading - theta)
-        e_endy = e_y + k*math.sin(ts_heading - theta)
+        e_endx = e_x - k*math.cos(ts_heading - theta)
+        e_endy = e_y - k*math.sin(ts_heading - theta)
 
-        e_startx = e_x - k*math.cos(ts_heading - theta)
-        e_starty = e_y - k*math.sin(ts_heading - theta)
+        e_startx = e_x 
+        e_starty = e_y 
 
-        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
-        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
-        #plt.plot(x,y)
-        #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
-        #plt.show()
-        #print(np.hstack((x,y)))
+        x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
+        y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
+
         return np.hstack((x,y))
 
 
@@ -171,35 +169,32 @@ class Obstacles():
         r = 10
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
-        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
-        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
 
-        #print(e_x, e_y)
-        theta = 1*math.pi/12
-        r = 20
+        e_x = self.traj[0,t,0] + r*math.cos(ts_heading + math.pi/2)
+        e_y = self.traj[0,t,1] + r*math.sin(ts_heading + math.pi/2)
+
+
+        theta = 23*math.pi/25 
+        phi =  - 2*math.pi/12
+        r = 40
         k= 20
 
-        e_endx = e_x + k*math.cos(ts_heading - theta)
-        e_endy = e_y + k*math.sin(ts_heading - theta)
+        e_end1x = e_x - r*math.cos(ts_heading - theta)
+        e_end1y = e_y - r*math.sin(ts_heading - theta)
 
-        e_startx = e_x - k*math.cos(ts_heading - theta)
-        e_starty = e_y - k*math.sin(ts_heading - theta)
+        e_end2x = e_end1x - k*math.cos(ts_heading - theta - phi)
+        e_end2y = e_end1y - k*math.sin(ts_heading - theta - phi)
 
-        e_parx = e_startx - r*math.cos(ts_heading - math.pi)
-        e_pary = e_starty - r*math.sin(ts_heading - math.pi)
 
-        x_par = np.linspace(e_parx, e_startx, 20)
-        y_par = np.linspace(e_pary, e_starty, 20)
+        x_par = np.linspace(e_x, e_end1x, 100)
+        y_par = np.linspace(e_y, e_end1y, 100)
 
-        x = np.linspace(e_startx, e_endx, 40)
-        y = np.linspace(e_starty, e_endy, 40)
+        x = np.linspace(e_end1x, e_end2x, 80)
+        y = np.linspace(e_end1y, e_end2y, 80)
 
-        x_comb = np.concatenate((x,x_par)).reshape((60,1))
-        y_comb = np.concatenate((y,y_par)).reshape((60,1))
-        #plt.plot(x_comb,y_comb)
-        #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
-        #plt.show()
-        #print(np.hstack((x,y)))
+        x_comb = np.concatenate((x,x_par)).reshape((180,1))
+        y_comb = np.concatenate((y,y_par)).reshape((180,1))
+
         return np.hstack((x_comb,y_comb))
 
 
@@ -207,6 +202,3 @@ class Obstacles():
         #Try to just make it for rule 15 Give-way
 
         return("Give-way")
-
-
-
