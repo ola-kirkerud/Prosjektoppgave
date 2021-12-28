@@ -11,7 +11,10 @@ import math
 t_sim = 2000
 plt.figure(1)
 
-for i in range(0,100,1): 
+iter = 1
+
+for i in range(0,100,iter): 
+    
 
 
     #Simulator variables
@@ -63,12 +66,6 @@ for i in range(0,100,1):
 
         goal = ship.getGoal(t)
 
-        
-        #if len(obstacles) == 0:
-        #    targets = []
-        #else:
-            #targets = obs.create_dynamic_multiple_linear_line(t)
-            #targets = obs.create_dynamic_linear_line(t)
 
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
@@ -79,8 +76,6 @@ for i in range(0,100,1):
         ship_path_x.append(ship_pos[0])
         ship_path_y.append(ship_pos[1])
 
-        if (ship_pos[0] > 55) and (ship_pos[1] > 55): 
-            targets = []
 
 
         t = t+1
@@ -114,7 +109,7 @@ for i in range(0,100,1):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
-for i in range(0,100,1): 
+for i in range(0,100,iter): 
 
 
     #Simulator variables
@@ -207,9 +202,9 @@ for i in range(0,100,1):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
-for i in range(0,100,1): 
+for i in range(0,100,iter): 
 
-
+    print(i)
     #Simulator variables
     t_sim = 2000
     t = 0

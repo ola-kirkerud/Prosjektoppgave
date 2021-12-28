@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 
 
-for i in range(0,100,1): 
+for i in range(0,100,5): 
     print(i)
 
 
@@ -52,10 +52,10 @@ for i in range(0,100,1):
     obstacles, traj = obs.getObstacles(ownship_traj)
 
 
-    #if len(obstacles) == 0:
-    #    targets = []
-    #else: 
-    #    targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
+    if len(obstacles) == 0:
+        targets = []
+    else: 
+       targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
 
 
 
@@ -64,10 +64,10 @@ for i in range(0,100,1):
 
         goal = ship.getGoal(t)
         
-        if len(obstacles) == 0:
-            targets = []
-        else:
-            targets = obs.create_dynamic_multiple_linear_line(t)
+        #if len(obstacles) == 0:
+         #   targets = []
+        #else:
+            #targets = obs.create_dynamic_multiple_linear_line(t)
             #targets = obs.create_dynamic_linear_line(t)
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())

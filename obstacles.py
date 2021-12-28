@@ -35,7 +35,14 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        #frist trajectory
+        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
+
+        #second
+        #traj = np.linspace((100, 0,0), (0, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
+        
+        #third
+        #traj = np.linspace((0, 0,0), (100, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
 
 
         return traj
@@ -116,18 +123,24 @@ class Obstacles():
 
     def create_static_linear_target(self, obstacle, os_pos, os_heading):
         r = math.sqrt((obstacle[1]-os_pos[0])**2 + (obstacle[2]-os_pos[1])**2)
+        #print(r)
 
         if r > 40: 
-            d = 40
+            d = 20
         else:
             d = r/2
         
         theta = math.pi/4
 
+        #theta = 2*math.pi/10
+
+        #theta = 5*math.pi/12
+
+
         e_x = os_pos[0] + d*math.cos(os_heading)
         e_y = os_pos[1] + d*math.sin(os_heading)
 
-        k = 10
+        k = 12
 
         e_endx = e_x + k*math.cos(-theta + os_heading - math.pi)
         e_endy = e_y + k*math.sin(-theta + os_heading - math.pi)
@@ -135,8 +148,10 @@ class Obstacles():
         e_startx = e_x - k*math.cos(-theta + os_heading - math.pi)
         e_starty = e_y - k*math.sin(-theta + os_heading - math.pi)
 
-        x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
-        y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
+        x = np.linspace(e_startx, e_endx, 50).reshape((50,1))
+        y = np.linspace(e_starty, e_endy, 50).reshape((50,1))
+
+        #print(np.hstack((x,y)))
 
         return np.hstack((x,y))
 
@@ -151,10 +166,14 @@ class Obstacles():
         #print(e_x, e_y)
         theta = 22*math.pi/25
 
-        k= 50
+
+        #theta = math.pi
+        k= 60
 
         e_endx = e_x - k*math.cos(ts_heading - theta)
         e_endy = e_y - k*math.sin(ts_heading - theta)
+
+
 
         e_startx = e_x 
         e_starty = e_y 
@@ -162,11 +181,15 @@ class Obstacles():
         x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
         y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
 
+        #plt.plot(x,y)
+        #plt.plot(self.traj[0,t,0],self.traj[0,t,1])
+        #plt.show()
+
         return np.hstack((x,y))
 
 
     def create_dynamic_multiple_linear_line(self, t):
-        r = 10
+        r = 6
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
 
@@ -176,8 +199,12 @@ class Obstacles():
 
         theta = 23*math.pi/25 
         phi =  - 2*math.pi/12
+
+        #theta = math.pi
+        #phi = -1*math.pi/30
         r = 40
         k= 20
+
 
         e_end1x = e_x - r*math.cos(ts_heading - theta)
         e_end1y = e_y - r*math.sin(ts_heading - theta)
@@ -195,7 +222,15 @@ class Obstacles():
         x_comb = np.concatenate((x,x_par)).reshape((180,1))
         y_comb = np.concatenate((y,y_par)).reshape((180,1))
 
+        #plt.plot(x_comb,y_comb)
+        #plt.plot(self.traj[0,t,0],self.traj[0,t,1])
+        #plt.show()
+
+        
+
         return np.hstack((x_comb,y_comb))
+
+        
 
 
     def classifyCollision(self, obstacle_traj, ownship_traj): 
