@@ -9,7 +9,7 @@ import math
 
 
 #Simulator variables
-t_sim = 1000
+t_sim = 2000
 t = 0
 
 #Init variables
@@ -24,7 +24,7 @@ y = np.arange(-0,200,1)
 X, Y = np.meshgrid(x,y)
 
 #Ownship
-ownship_traj = np.linspace((20,100), (80,0), t_sim)
+ownship_traj = np.linspace((50,99), (50,0), t_sim)
 ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
 ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
@@ -51,8 +51,8 @@ while t<t_sim:
 
 
   #targets = obs.create_targets(obstacles,ship.getPos(), t, ship.getHeading())
-  #targets = obs.create_dynamic_linear_line(t)
-  targets = obs.create_dynamic_multiple_linear_line(t)
+  targets = obs.create_dynamic_linear_line(t)
+  #targets = obs.create_dynamic_multiple_linear_line(t)
   goal = ship.getGoal(t)
 
 
@@ -78,7 +78,8 @@ while t<t_sim:
 
 
 
-#plt.plot(targets[:,0], targets[:,1])
+
+plt.plot(targets[:,0], targets[:,1])
 #plt.show()
 
 t = np.linspace(0,1,len(ship_path_x))

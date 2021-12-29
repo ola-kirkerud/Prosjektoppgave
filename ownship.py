@@ -8,7 +8,7 @@ class OwnShip():
         self.pos = pos
         self.traj = traj
         self.heading = heading
-        self.phi = 0
+        self.phi = heading
     
     def updatePos(self, delx, dely):
         #phi = math.atan(delx[math.floor(self.pos[0]),math.floor(self.pos[1])]/dely[math.floor(self.pos[0]),math.floor(self.pos[1])])
@@ -21,15 +21,32 @@ class OwnShip():
 
         if (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0) and (delx[int(round(self.pos[0])),int(round(self.pos[1]))] == 0):
             phi = self.phi
-            print("fuck")
         else:
             phi = math.atan2(dely_hat, delx_hat)
+        
+        if phi < 0:
+            phi = phi + 2*math.pi
+
+        if abs(self.heading-phi) > math.pi/50:
+            print(self.heading, phi)
+            print(self.pos)
+            
 
 
+        if self.heading - phi > math.pi/500:
+            #print("Greater")
+            #print(self.heading, phi, self.heading + math.pi/500)
+            phi = self.heading - math.pi/500
+            #print(self.pos, phi)
+        elif self.heading - phi < -math.pi/500:
+            #print("Smaller")
+            #print(self.heading, phi, self.heading + math.pi/500)
+            phi = self.heading + math.pi/500
+            #print(self.pos, phi)
 
-        self.phi = phi
-        x = self.pos[0] + 0.15*math.cos(phi)
-        y = self.pos[1] + 0.15*math.sin(phi)
+
+        x = self.pos[0] + 0.0550*math.cos(phi)
+        y = self.pos[1] + 0.0550*math.sin(phi)
 
         #print(x,y)
 
@@ -46,13 +63,17 @@ class OwnShip():
         #check distance from ownship to traj
         #should also have a different one if the heading diff is to big 
         #must only look at the points that are ahead, not behind
-        if t+60 >= self.traj.shape[0]:
+        if t+500 >= self.traj.shape[0]:
             return self.traj[-1,:]
         else: 
-            return self.traj[-1,:]#[t+60,:]
+            return self.traj[t+500,:]
     
     def updateHeading(self, old_pos):
-        self.heading = np.arctan2(self.pos[1]-old_pos[1], self.pos[0]-old_pos[0])
+        heading = np.arctan2(self.pos[1]-old_pos[1], self.pos[0]-old_pos[0])
+
+        if heading< 0:
+            heading = heading+2*math.pi
+        self.heading=heading
 
     def getHeading(self):
         return self.heading

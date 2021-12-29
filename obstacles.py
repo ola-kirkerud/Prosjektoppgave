@@ -35,7 +35,7 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((80, 0,0), (20, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -148,18 +148,19 @@ class Obstacles():
         e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
 
         #print(e_x, e_y)
-        theta = 1*math.pi/12
 
-        k= 20
+        theta = 1*math.pi/4
 
-        e_endx = e_x + 20*math.cos(ts_heading - theta)
-        e_endy = e_y + 20*math.sin(ts_heading - theta)
+        k= 12
 
-        e_startx = e_x - 20*math.cos(ts_heading - theta)
-        e_starty = e_y - 20*math.sin(ts_heading - theta)
+        e_endx = e_x + k*math.cos(ts_heading - theta)
+        e_endy = e_y + k*math.sin(ts_heading - theta)
 
-        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
-        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
+        e_startx = e_x - k*math.cos(ts_heading - theta)
+        e_starty = e_y - k*math.sin(ts_heading - theta)
+
+        x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
+        y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
         #plt.plot(x,y)
         #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
         #plt.show()
