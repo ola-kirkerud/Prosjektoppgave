@@ -69,8 +69,8 @@ for i in range(0,100,iter):
         if len(obstacles) == 0:
             targets = []
         else:
-            #targets = obs.create_dynamic_multiple_linear_line(t)
-            targets = obs.create_dynamic_linear_line(t)
+            targets = obs.create_dynamic_multiple_linear_line(t)
+            #targets = obs.create_dynamic_linear_line(t)
         goal = ship.getGoal(t)
 
 

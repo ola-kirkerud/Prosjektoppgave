@@ -35,11 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-       # traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
 
        # traj = np.linspace((55, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-        traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+      #  traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -176,7 +176,7 @@ class Obstacles():
 
 
     def create_dynamic_multiple_linear_line(self, t):
-        r = 10
+        r = 20
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
         e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
@@ -184,8 +184,8 @@ class Obstacles():
 
         #print(e_x, e_y)
         theta = 1*math.pi/4
-        r = 20
-        k= 20
+        r = 10
+        k= 30
 
         e_endx = e_x + k*math.cos(ts_heading - theta)
         e_endy = e_y + k*math.sin(ts_heading - theta)
