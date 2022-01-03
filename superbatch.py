@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 plt.figure(1)
 
-iter = 1
+iter = 2
 
 for i in range(0,100,iter): 
     print(i)
@@ -33,7 +33,7 @@ for i in range(0,100,iter):
     X, Y = np.meshgrid(x,y)
 
         #Ownship
-    ownship_traj = np.linspace((i,100), (i,0), t_sim)
+    ownship_traj = np.linspace((0,i), (100,i), t_sim)
     ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
     ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
@@ -135,7 +135,7 @@ for i in range(0,100,iter):
     X, Y = np.meshgrid(x,y)
 
         #Ownship
-    ownship_traj = np.linspace((i,100), (i,0), t_sim)
+    ownship_traj = np.linspace((0,i), (100,i), t_sim)
     ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
     ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
@@ -230,7 +230,7 @@ for i in range(0,100,iter):
     X, Y = np.meshgrid(x,y)
 
         #Ownship
-    ownship_traj = np.linspace((i,100), (i,0), t_sim)
+    ownship_traj = np.linspace((0,i), (100,i), t_sim)
     ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
     ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 

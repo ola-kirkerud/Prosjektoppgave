@@ -24,24 +24,28 @@ class OwnShip():
         else:
             phi = math.atan2(dely_hat, delx_hat)
         
-        if phi < 0:
-            phi = phi + 2*math.pi
+   
 
- 
+
             
 
 
         if self.heading - phi > math.pi/500:
-            #print("Greater")
-            #print(self.heading, phi, self.heading + math.pi/500)
+        #    #print("Greater")
+        #    #print(self.heading, phi, self.heading + math.pi/500)
             phi = self.heading - math.pi/500
-            #print(self.pos, phi)
+        #    #print(self.pos, phi)
         elif self.heading - phi < -math.pi/500:
-            #print("Smaller")
-            #print(self.heading, phi, self.heading + math.pi/500)
+        #    #print("Smaller")
+        #    #print(self.heading, phi, self.heading + math.pi/500)
             phi = self.heading + math.pi/500
             #print(self.pos, phi)
 
+        #if phi<0:
+        #    phi = phi+math.pi
+        if -math.pi<self.heading<-math.pi/2:
+            print(self.heading)
+            print(phi)
 
         x = self.pos[0] + 0.0550*math.cos(phi)
         y = self.pos[1] + 0.0550*math.sin(phi)
@@ -69,8 +73,6 @@ class OwnShip():
     def updateHeading(self, old_pos):
         heading = np.arctan2(self.pos[1]-old_pos[1], self.pos[0]-old_pos[0])
 
-        if heading< 0:
-            heading = heading+2*math.pi
         self.heading=heading
 
     def getHeading(self):

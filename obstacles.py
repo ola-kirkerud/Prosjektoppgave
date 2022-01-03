@@ -35,11 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-       # traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+        #traj = np.linspace((30, 50,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
 
-       # traj = np.linspace((55, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        #traj = np.linspace((30, 45,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-        traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        traj = np.linspace((30, 55,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -57,7 +57,7 @@ class Obstacles():
             for t in range(self.sim_time): 
                 dist = math.sqrt((ownship_traj[t,0]-traj[i,t,0])**2+(ownship_traj[t,1]-traj[i,t,1])**2)
                 if dist < radi: 
-                    obstacle_class = 'Giwe-way'#self.classifyCollision(traj[:,:,i], ownship_traj)
+                    obstacle_class = 'Overtaking'#self.classifyCollision(traj[:,:,i], ownship_traj)
                     #crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
         if crash_obstacle.shape[0] == 1:
@@ -131,79 +131,108 @@ class Obstacles():
         e_x = os_pos[0] + d*math.cos(os_heading)
         e_y = os_pos[1] + d*math.sin(os_heading)
 
-        k = 12
+        k = 10
 
-        e_endx = e_x + k*math.cos(-theta + os_heading - math.pi)
-        e_endy = e_y + k*math.sin(-theta + os_heading - math.pi)
+        e_end1x = e_x + k*math.cos(-theta + os_heading - math.pi)
+        e_end1y = e_y + k*math.sin(-theta + os_heading - math.pi)
+        
+        e_end2x = e_x + k*math.cos(theta + os_heading - math.pi)
+        e_end2y = e_y + k*math.sin(theta + os_heading - math.pi)
 
-        e_startx = e_x - k*math.cos(-theta + os_heading - math.pi)
-        e_starty = e_y - k*math.sin(-theta + os_heading - math.pi)
+        x1 = np.linspace(e_x, e_end1x, 60).reshape((60,1))
+        y1 = np.linspace(e_y, e_end1y, 60).reshape((60,1))
 
-        x = np.linspace(e_startx, e_endx, 60).reshape((60,1))
-        y = np.linspace(e_starty, e_endy, 60).reshape((60,1))
-        #plt.plot(x,y)
-        #plt.plot(self.traj[0,t,0],self.traj[0,t,1])
+        x2 = np.linspace(e_x, e_end2x, 60).reshape((60,1))
+        y2 = np.linspace(e_y, e_end2y, 60).reshape((60,1))
+
+        x_comb = np.concatenate((x1,x2)).reshape((120,1))
+        y_comb = np.concatenate((y1,y2)).reshape((120,1))
+        #plt.plot(x_comb,y_comb)
         #plt.show()
         #print(np.hstack((x,y)))
-        return np.hstack((x,y))
+        return np.hstack((x_comb,y_comb))
 
     def create_dynamic_linear_line(self, t):
-        r = 25
+        r = 10
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
-        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
-        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
+        if ts_heading < 0:
+            ts_heading=ts_heading+2*math.pi
+
+        e_x = self.traj[0,t,0] - r*math.cos(ts_heading)
+        e_y = self.traj[0,t,1] - r*math.sin(ts_heading)
 
         #print(e_x, e_y)
 
-        theta = 1*math.pi/4
+        theta = 3*math.pi/5
 
         k= 12
 
-        e_endx = e_x + k*math.cos(ts_heading - theta)
-        e_endy = e_y + k*math.sin(ts_heading - theta)
+        e_end1x = e_x + k*math.cos(-theta + ts_heading + math.pi)
+        e_end1y = e_y + k*math.sin(-theta + ts_heading + math.pi)
+        
+        e_end2x = e_x + k*math.cos(theta + ts_heading + math.pi)
+        e_end2y = e_y + k*math.sin(theta + ts_heading + math.pi)
 
-        e_startx = e_x - k*math.cos(ts_heading - theta)
-        e_starty = e_y - k*math.sin(ts_heading - theta)
 
-        x = np.linspace(e_startx, e_endx, 200).reshape((200,1))
-        y = np.linspace(e_starty, e_endy, 200).reshape((200,1))
-        #plt.plot(x,y)
+        x1 = np.linspace(e_x, e_end1x, 60).reshape((60,1))
+        y1 = np.linspace(e_y, e_end1y, 60).reshape((60,1))
+
+        x2 = np.linspace(e_x, e_end2x, 60).reshape((60,1))
+        y2 = np.linspace(e_y, e_end2y, 60).reshape((60,1))
+
+        x_comb = np.concatenate((x1,x2)).reshape((120,1))
+        y_comb = np.concatenate((y1,y2)).reshape((120,1))
+        #plt.plot(x_comb,y_comb)
         #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
         #plt.show()
         #print(np.hstack((x,y)))
-        return np.hstack((x,y))
+        return np.hstack((x_comb,y_comb))
 
 
     def create_dynamic_multiple_linear_line(self, t):
         r = 10
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
-        e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
-        e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
+
+        e_x = self.traj[0,t,0] - r*math.cos(ts_heading)
+        e_y = self.traj[0,t,1] - r*math.sin(ts_heading)
 
         #print(e_x, e_y)
-        theta = 1*math.pi/4
-        r = 20
-        k= 20
 
-        e_endx = e_x + k*math.cos(ts_heading - theta)
-        e_endy = e_y + k*math.sin(ts_heading - theta)
+        theta = 3*math.pi/5
 
-        e_startx = e_x - k*math.cos(ts_heading - theta)
-        e_starty = e_y - k*math.sin(ts_heading - theta)
+        k= 12
 
-        e_parx = e_startx - r*math.cos(ts_heading - math.pi)
-        e_pary = e_starty - r*math.sin(ts_heading - math.pi)
+        kp=4
 
-        x_par = np.linspace(e_parx, e_startx, 20)
-        y_par = np.linspace(e_pary, e_starty, 20)
+        e_end1x = e_x + k*math.cos(-theta + ts_heading - math.pi)
+        e_end1y = e_y + k*math.sin(-theta + ts_heading - math.pi)
 
-        x = np.linspace(e_startx, e_endx, 40)
-        y = np.linspace(e_starty, e_endy, 40)
+        e_end1_1x = e_end1x + kp*math.cos(ts_heading)
+        e_end1_1y = e_end1y + kp*math.sin(ts_heading)
+        
+        e_end2x = e_x + k*math.cos(theta + ts_heading - math.pi)
+        e_end2y = e_y + k*math.sin(theta + ts_heading - math.pi)
 
-        x_comb = np.concatenate((x,x_par)).reshape((60,1))
-        y_comb = np.concatenate((y,y_par)).reshape((60,1))
+        e_end2_1x = e_end2x + kp*math.cos(ts_heading)
+        e_end2_1y = e_end2y + kp*math.sin(ts_heading)
+
+        x1 = np.linspace(e_x, e_end1x, 60).reshape((60,1))
+        y1 = np.linspace(e_y, e_end1y, 60).reshape((60,1))
+
+        x1_2 = np.linspace(e_end1x, e_end1_1x, 60).reshape((60,1))
+        y1_2 = np.linspace(e_end1y, e_end1_1y, 60).reshape((60,1))
+
+        x2 = np.linspace(e_x, e_end2x, 60).reshape((60,1))
+        y2 = np.linspace(e_y, e_end2y, 60).reshape((60,1))
+
+        x2_2 = np.linspace(e_end2x, e_end2_1x, 60).reshape((60,1))
+        y2_2 = np.linspace(e_end2y, e_end2_1y, 60).reshape((60,1))
+
+        x_comb = np.concatenate((x1,x2, x1_2, x2_2)).reshape((240,1))
+        y_comb = np.concatenate((y1,y2, y1_2, y2_2)).reshape((240,1))
+
         #plt.plot(x_comb,y_comb)
         #plt.plot(self.traj[0,:,0],self.traj[0,:,1])
         #plt.show()

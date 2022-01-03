@@ -24,7 +24,7 @@ y = np.arange(-0,200,1)
 X, Y = np.meshgrid(x,y)
 
 #Ownship
-ownship_traj = np.linspace((50,100), (50,0), t_sim)
+ownship_traj = np.linspace((0,53), (100,53), t_sim)
 ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
 ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
 
@@ -43,7 +43,7 @@ obs = Obstacles(stationary_obstacles, dynamic_obstacles, t_sim)
 field = potentialField(x_sim, y_sim)
 obstacles, traj = obs.getObstacles(ownship_traj)
 
-targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
+t#argets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
 #targets = []
 while t<t_sim:
   #get attack angle 
@@ -51,7 +51,7 @@ while t<t_sim:
 
 
   #targets = obs.create_targets(obstacles,ship.getPos(), t, ship.getHeading())
-  #targets = obs.create_dynamic_linear_line(t)
+  targets = obs.create_dynamic_linear_line(t)
   #targets = obs.create_dynamic_multiple_linear_line(t)
   goal = ship.getGoal(t)
 
