@@ -27,9 +27,7 @@ class OwnShip():
         if phi < 0:
             phi = phi + 2*math.pi
 
-        if abs(self.heading-phi) > math.pi/50:
-            print(self.heading, phi)
-            print(self.pos)
+ 
             
 
 

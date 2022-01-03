@@ -35,7 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+       # traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+
+       # traj = np.linspace((55, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+
+        traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -56,8 +60,11 @@ class Obstacles():
                     obstacle_class = 'Giwe-way'#self.classifyCollision(traj[:,:,i], ownship_traj)
                     #crash_obstacle.append([traj[i,t,0], traj[i,t,1], obstacle_class])
                     crash_obstacle = np.append(crash_obstacle, [[traj[i,t,0], traj[i,t,1]]], axis=0)
+        if crash_obstacle.shape[0] == 1:
+            obstacle = []
+        else:
+            obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
 
-        obstacle = [obstacle_class, crash_obstacle[1:,0].sum()/(crash_obstacle.shape[0]-1),crash_obstacle[1:,1].sum()/(crash_obstacle.shape[0]-1)] 
         self.traj = traj
         
    
@@ -119,12 +126,12 @@ class Obstacles():
         else:
             d = r/2
         
-        theta = math.pi/6
+        theta = 3*math.pi/5
 
         e_x = os_pos[0] + d*math.cos(os_heading)
         e_y = os_pos[1] + d*math.sin(os_heading)
 
-        k = 10
+        k = 12
 
         e_endx = e_x + k*math.cos(-theta + os_heading - math.pi)
         e_endy = e_y + k*math.sin(-theta + os_heading - math.pi)
@@ -141,7 +148,7 @@ class Obstacles():
         return np.hstack((x,y))
 
     def create_dynamic_linear_line(self, t):
-        r = 10
+        r = 25
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
         e_x = self.traj[0,t,0] + r*math.cos(ts_heading)
@@ -176,7 +183,7 @@ class Obstacles():
         e_y = self.traj[0,t,1] + r*math.sin(ts_heading)
 
         #print(e_x, e_y)
-        theta = 1*math.pi/12
+        theta = 1*math.pi/4
         r = 20
         k= 20
 
