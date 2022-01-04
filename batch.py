@@ -52,10 +52,10 @@ for i in range(0,100,iter):
     field = potentialField(x_sim, y_sim)
     obstacles, traj = obs.getObstacles(ownship_traj)
 
-    if len(obstacles) == 0:
-        targets = []
-    else: 
-        targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())   
+   # if len(obstacles) == 0:
+   #     targets = []
+   # else: 
+   #     targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())   
 
     while t<t_sim:
     #get attack angle 
@@ -66,10 +66,10 @@ for i in range(0,100,iter):
         #targets = obs.create_dynamic_linear_line(t)
         #targets = obs.create_dynamic_multiple_linear_line(t)
 
-        #if len(obstacles) == 0:
-        #    targets = []
-        #else:
-            #targets = obs.create_dynamic_multiple_linear_line(t)
+        if len(obstacles) == 0:
+            targets = []
+        else:
+            targets = obs.create_dynamic_multiple_linear_line(t)
             #targets = obs.create_dynamic_linear_line(t)
         goal = ship.getGoal(t)
 

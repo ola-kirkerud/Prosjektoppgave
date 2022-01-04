@@ -35,11 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        #traj = np.linspace((30, 50,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+        traj = np.linspace((30, 50,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
 
         #traj = np.linspace((30, 45,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-        traj = np.linspace((30, 55,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        #traj = np.linspace((30, 55,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -48,7 +48,7 @@ class Obstacles():
         #This function breaks or makes this whole project!!
         #Finding the obstacles that are on impact route
 
-        radi = 5 #The radius of the cirle that i think the obstacle should hit on
+        radi = 10 #The radius of the cirle that i think the obstacle should hit on
         traj = self.makeObstacleTrajectory()
         #crash_obstacle = []
         crash_obstacle = np.array([[0,0]])
@@ -166,7 +166,7 @@ class Obstacles():
 
         theta = 3*math.pi/5
 
-        k= 12
+        k= 5
 
         e_end1x = e_x + k*math.cos(-theta + ts_heading + math.pi)
         e_end1y = e_y + k*math.sin(-theta + ts_heading + math.pi)
@@ -191,7 +191,7 @@ class Obstacles():
 
 
     def create_dynamic_multiple_linear_line(self, t):
-        r = 10
+        r = 5
         ts_heading = np.arctan2(self.traj[0,10,1]-self.traj[0,0,1], self.traj[0,10,0] - self.traj[0,0,0])
 
 
@@ -202,9 +202,9 @@ class Obstacles():
 
         theta = 3*math.pi/5
 
-        k= 12
+        k= 10
 
-        kp=4
+        kp=8
 
         e_end1x = e_x + k*math.cos(-theta + ts_heading - math.pi)
         e_end1y = e_y + k*math.sin(-theta + ts_heading - math.pi)
