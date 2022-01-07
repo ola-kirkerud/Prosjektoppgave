@@ -28,15 +28,15 @@ class OwnShip():
             #print("YESS")
             #print(phi)
 
-        if self.phi - phi > math.pi/500:
-            phi = self.phi - math.pi/500
-        elif self.phi - phi < -math.pi/500:
-            phi = self.phi + math.pi/500
+        #if self.phi - phi > math.pi/400:
+        #    phi = self.phi - math.pi/400
+        #elif self.phi - phi < -math.pi/400:
+        #    phi = self.phi + math.pi/400
 
 
         self.phi = phi
-        x = self.pos[0] + 0.055*math.cos(phi)
-        y = self.pos[1] + 0.055*math.sin(phi)
+        x = self.pos[0] + 0.066*math.cos(phi)
+        y = self.pos[1] + 0.066*math.sin(phi)
 
         #print(x,y)
 

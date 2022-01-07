@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 
 
-for i in range(0,100,5): 
+for i in range(0,100,1): 
     print(i)
 
 
@@ -52,10 +52,10 @@ for i in range(0,100,5):
     obstacles, traj = obs.getObstacles(ownship_traj)
 
 
-    if len(obstacles) == 0:
-        targets = []
-    else: 
-       targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
+    #if len(obstacles) == 0:
+    #    targets = []
+    #else: 
+    #   targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())
 
 
 
@@ -64,10 +64,10 @@ for i in range(0,100,5):
 
         goal = ship.getGoal(t)
         
-        #if len(obstacles) == 0:
-         #   targets = []
-        #else:
-            #targets = obs.create_dynamic_multiple_linear_line(t)
+        if len(obstacles) == 0:
+            targets = []
+        else:
+            targets = obs.create_dynamic_multiple_linear_line(t)
             #targets = obs.create_dynamic_linear_line(t)
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
@@ -108,6 +108,12 @@ for i in range(0,100,5):
 
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
+
+plt.xlabel('[10m]')
+plt.ylabel('[10m]')
+
+cbar = plt.colorbar(lc1, label='sec')
+cbar.ax.set_yticklabels(['$0$', '$20$', '$40$', '$60$', '$80$', '$100$'])
 
 plt.show()
 
