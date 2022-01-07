@@ -35,11 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+        #traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
 
-       # traj = np.linspace((55, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        #traj = np.linspace((55, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-      #  traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        traj = np.linspace((45, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -48,7 +48,7 @@ class Obstacles():
         #This function breaks or makes this whole project!!
         #Finding the obstacles that are on impact route
 
-        radi = 5 #The radius of the cirle that i think the obstacle should hit on
+        radi = 3 #The radius of the cirle that i think the obstacle should hit on
         traj = self.makeObstacleTrajectory()
         #crash_obstacle = []
         crash_obstacle = np.array([[0,0]])

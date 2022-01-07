@@ -9,9 +9,8 @@ import math
 
 
 t_sim = 2000
-plt.figure(1)
 
-iter = 5
+iter = 1
 
 for i in range(0,100,iter): 
     print(i)
@@ -99,7 +98,6 @@ for i in range(0,100,iter):
 
     #plt.plot(targets[:,0], targets[:,1])
 
-    plt.subplot(311)
 
     t = np.linspace(0,1,len(ship_path_x))
     points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)
@@ -115,8 +113,6 @@ for i in range(0,100,iter):
     lc1.set_array(t) # color the segments by our parameter
     lc2.set_array(t) 
 
-    plt.title("Static Linear Line", fontsize=14)
-
 
     # plot the collection
     plt.gca().add_collection(lc1) # add the collection to the plot
@@ -125,5 +121,12 @@ for i in range(0,100,iter):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
-plt.show()
+plt.xlabel('[10m]')
+plt.ylabel('[10m]')
 
+cbar = plt.colorbar(lc1, label='sec')
+cbar.ax.set_yticklabels(['$0$', '$20$', '$40$', '$60$', '$80$', '$100$'])
+
+#plt.title("Head-on situation, \ ")
+
+plt.show()
