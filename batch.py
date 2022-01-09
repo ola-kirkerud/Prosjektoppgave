@@ -10,7 +10,7 @@ import math
 
 t_sim = 2000
 
-iter = 1
+iter = 5
 
 for i in range(0,100,iter): 
     print(i)
