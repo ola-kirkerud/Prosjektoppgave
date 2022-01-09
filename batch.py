@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 
 
-for i in range(0,100,1): 
+for i in range(0,100,5): 
     print(i)
 
 
@@ -67,8 +67,8 @@ for i in range(0,100,1):
         if len(obstacles) == 0:
             targets = []
         else:
-            targets = obs.create_dynamic_multiple_linear_line(t)
-            #targets = obs.create_dynamic_linear_line(t)
+            #targets = obs.create_dynamic_multiple_linear_line(t)
+            targets = obs.create_dynamic_linear_line(t)
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
@@ -109,11 +109,13 @@ for i in range(0,100,1):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
-plt.xlabel('[10m]')
-plt.ylabel('[10m]')
+plt.xlabel('x(10m)')
+plt.ylabel('y(10m)')
 
-cbar = plt.colorbar(lc1, label='sec')
+cbar = plt.colorbar(lc1, label='time (s)')
 cbar.ax.set_yticklabels(['$0$', '$20$', '$40$', '$60$', '$80$', '$100$'])
+
+plt.title('Give-way situation, dynamic linear plow, \u03B1 = 90\u00B0')
 
 plt.show()
 
