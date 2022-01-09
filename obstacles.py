@@ -36,10 +36,10 @@ class Obstacles():
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
         #frist trajectory
-        #traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
+        traj = np.linspace((50, 0,0), (50, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
 
         #second
-        traj = np.linspace((80, 0,0), (20, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
+        #traj = np.linspace((80, 0,0), (20, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
         
         #third
         #traj = np.linspace((20, 0,0), (80, 100,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) 
@@ -167,10 +167,10 @@ class Obstacles():
         e_y = self.traj[0,t,1] + r*math.sin(ts_heading + math.pi/2)
 
         #print(e_x, e_y)
-        #theta = 22*math.pi/25
+        theta = 22*math.pi/25
 
 
-        theta = math.pi
+        #theta = math.pi
 
         #theta = 19*math.pi/25
         k= 70

@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 
 
-for i in range(0,100,30): 
+for i in range(0,100,2): 
     print(i)
 
 
@@ -68,8 +68,8 @@ for i in range(0,100,30):
         if len(obstacles) == 0:
             targets = []
         else:
-            targets = obs.create_dynamic_multiple_linear_line(t)
-            #targets = obs.create_dynamic_linear_line(t)
+            #targets = obs.create_dynamic_multiple_linear_line(t)
+            targets = obs.create_dynamic_linear_line(t)
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
