@@ -43,9 +43,6 @@ class OwnShip():
 
         #if phi<0:
         #    phi = phi+math.pi
-        if -math.pi<self.heading<-math.pi/2:
-            print(self.heading)
-            print(phi)
 
         x = self.pos[0] + 0.0550*math.cos(phi)
         y = self.pos[1] + 0.0550*math.sin(phi)

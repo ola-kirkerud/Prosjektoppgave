@@ -35,11 +35,11 @@ class Obstacles():
                     traj[i,t,0] = traj[i,t-1,0] + self.dynamic_state[i,2]
                     traj[i,t,1] = traj[i,t-1,1] + self.dynamic_state[i,3]
                     traj[i,t,2] = t
-        traj = np.linspace((30, 50,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
+        #traj = np.linspace((30, 50,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3)) #90 degrees
 
         #traj = np.linspace((30, 45,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
-        #traj = np.linspace((30, 55,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
+        traj = np.linspace((30, 55,0), (80, 50,self.sim_time),self.sim_time).reshape((1,self.sim_time,3))
 
 
         return traj
@@ -202,9 +202,9 @@ class Obstacles():
 
         theta = 3*math.pi/5
 
-        k= 10
+        k= 3
 
-        kp=8
+        kp=5
 
         e_end1x = e_x + k*math.cos(-theta + ts_heading - math.pi)
         e_end1y = e_y + k*math.sin(-theta + ts_heading - math.pi)

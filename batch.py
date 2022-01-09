@@ -9,9 +9,8 @@ import math
 
 
 t_sim = 2000
-plt.figure(1)
 
-iter = 2
+iter = 1
 
 for i in range(0,100,iter): 
     print(i)
@@ -52,10 +51,10 @@ for i in range(0,100,iter):
     field = potentialField(x_sim, y_sim)
     obstacles, traj = obs.getObstacles(ownship_traj)
 
-   # if len(obstacles) == 0:
-   #     targets = []
-   # else: 
-   #     targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())   
+    #if len(obstacles) == 0:
+    #    targets = []
+    #else: 
+    #    targets = obs.create_static_linear_target(obstacles, ship.getPos(), ship.getHeading())   
 
     while t<t_sim:
     #get attack angle 
@@ -90,16 +89,9 @@ for i in range(0,100,iter):
 
         t = t+1
 
-        #plt.plot(ship_path_x, ship_path_y)
-        #plt.plot(targets[:,0], targets[:,1])
-        #plt.show()
-
-
-
 
     #plt.plot(targets[:,0], targets[:,1])
 
-    plt.subplot(311)
 
     t = np.linspace(0,1,len(ship_path_x))
     points1 = np.array([ship_path_x, ship_path_y]).transpose().reshape(-1,1,2)
@@ -115,9 +107,6 @@ for i in range(0,100,iter):
     lc1.set_array(t) # color the segments by our parameter
     lc2.set_array(t) 
 
-    plt.title("Static Linear Line", fontsize=14)
-
-
     # plot the collection
     plt.gca().add_collection(lc1) # add the collection to the plot
     plt.gca().add_collection(lc2) # add the collection to the plot
@@ -125,5 +114,17 @@ for i in range(0,100,iter):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
-plt.show()
+plt.xlabel('x(10m)')
+plt.ylabel('y(10m)')
 
+#Get attack angle: 
+TS_heading = np.arctan2(traj[0, 200,1]-traj[0, 0,1],traj[0, 200,0]-traj[0, 0,0])
+alpha = str(round(math.degrees(TS_heading-ownship_heading)))
+
+cbar = plt.colorbar(lc1, label='time (s)')
+cbar.ax.set_yticklabels(['$0$', '$20$', '$40$', '$60$', '$80$', '$100$'])
+
+plt.title('Scenario 7: Overtaking situation, Dynamic Jointed Plow, \u03B1 = ' +alpha+ '\u00B0')
+
+
+plt.show()
