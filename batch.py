@@ -11,7 +11,7 @@ import math
 t_sim = 2000
 
 
-for i in range(0,100,5): 
+for i in range(0,100,30): 
     print(i)
 
 
@@ -34,6 +34,7 @@ for i in range(0,100,5):
     ownship_traj = np.linspace((0,i), (100,i), t_sim) #90 degrees
     ownship_heading = np.arctan2(ownship_traj[10,1]- ownship_traj[0,1], ownship_traj[10,0]-ownship_traj[0,0])
     ship = OwnShip(ownship_traj[0], ownship_traj, ownship_heading)
+
 
 
     ship_path_x = [ownship_traj[0,0]]
@@ -67,8 +68,8 @@ for i in range(0,100,5):
         if len(obstacles) == 0:
             targets = []
         else:
-            #targets = obs.create_dynamic_multiple_linear_line(t)
-            targets = obs.create_dynamic_linear_line(t)
+            targets = obs.create_dynamic_multiple_linear_line(t)
+            #targets = obs.create_dynamic_linear_line(t)
 
         delx, dely, X, Y = field.makeField(goal, targets, ship.getPos())
 
@@ -109,13 +110,19 @@ for i in range(0,100,5):
     plt.xlim(0, 100) # line collections don't auto-scale the plot
     plt.ylim(0,100)
 
+
+#Get attack angle: 
+TS_heading = np.arctan2(traj[0, 200,1]-traj[0, 0,1],traj[0, 200,0]-traj[0, 0,0])
+alpha = str((math.degrees(TS_heading-ownship_heading)))
+print(alpha)
+
 plt.xlabel('x(10m)')
 plt.ylabel('y(10m)')
 
 cbar = plt.colorbar(lc1, label='time (s)')
 cbar.ax.set_yticklabels(['$0$', '$20$', '$40$', '$60$', '$80$', '$100$'])
 
-plt.title('Give-way situation, dynamic linear plow, \u03B1 = 90\u00B0')
+plt.title('Give-way situation, Stationary Linear Plow, \u03B1 = ' +alpha+ '\u00B0')
 
 plt.show()
 
